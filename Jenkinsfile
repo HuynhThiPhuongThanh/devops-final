@@ -1,12 +1,10 @@
 pipeline {
     agent any
     
-    stages {
-        stage('Cài đặt Node.js') {
-            steps {
-                sh 'apt-get update && apt-get install -y nodejs npm'
-            }
-        }
+    tools {
+        
+        nodejs 'node20'
+    }
         
         stage('Cài đặt & Test') {
             steps {
