@@ -1,0 +1,27 @@
+services:
+  web-app:
+    build: .
+    ports:
+      - "3000:3000"
+    networks:
+      - devops-net
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - devops-net
+
+networks:
+  devops-net:
+    driver: bridge
+
+volumes:
+  jenkins_home:
