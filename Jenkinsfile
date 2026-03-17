@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker { 
+            image 'node:18-alpine' 
+            args '-u root'
+        }
+    }
     stages {
         stage('Cài đặt & Test') {
             steps {
@@ -9,7 +14,9 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-                sh 'docker build -t my-app .'
+                script {
+                    sh 'docker build -t my-app .'
+                }
             }
         }
         stage('Triển khai') {
