@@ -1,28 +1,26 @@
 pipeline {
-    agent {
-        docker { 
-            image 'node:18-alpine' 
-            args '-u root'
-        }
-    }
+    agent any
+    
     stages {
+        stage('Cài đặt Node.js') {
+            steps {
+                sh 'apt-get update && apt-get install -y nodejs npm'
+            }
+        }
+        
         stage('Cài đặt & Test') {
             steps {
                 sh 'npm install'
                 sh 'npm test'
             }
         }
-        stage('Build Image') {
+        
+        stage('Build & Deploy Docker') {
             steps {
-                script {
-                    sh 'docker build -t my-app .'
-                }
-            }
-        }
-        stage('Triển khai') {
-            steps {
+                sh 'docker build -t my-app .'
                 sh 'docker-compose up -d --force-recreate web-app'
             }
         }
     }
+    
 }
