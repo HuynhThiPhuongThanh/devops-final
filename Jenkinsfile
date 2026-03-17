@@ -5,7 +5,8 @@ pipeline {
         
         nodejs 'node20'
     }
-        
+    
+    stages {
         stage('Cài đặt & Test') {
             steps {
                 sh 'npm install'
@@ -19,6 +20,5 @@ pipeline {
                 sh 'docker-compose up -d --force-recreate web-app'
             }
         }
-    }
-    
+    } 
 }
